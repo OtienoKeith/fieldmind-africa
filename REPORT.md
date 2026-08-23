@@ -48,11 +48,11 @@ FarmerChat responses are AI-generated advisory text, not automatically expert-re
 - LoRA rank 32, alpha 32.
 - Attention and MLP projection targets.
 - Sequence length 2,048.
-- One epoch by default, 1e-4 learning rate, effective batch size 16.
+- A 200-step free-GPU budget (about 0.28 epoch on this dataset), 1e-4 learning rate, and effective batch size 16.
 - Response-only loss when the installed Unsloth chat-template helper supports it.
 - Fixed random seed 3407 and a saved config/manifest.
 
-The conservative one-epoch default reduces overfitting to repetitive advisory prose. A second run should only be accepted if held-out metrics improve.
+The bounded 200-step run prioritises a reproducible trained artifact that fits a free Colab allocation. A longer run should only replace it if held-out metrics improve under the same evaluation.
 
 ### Quantization tournament
 

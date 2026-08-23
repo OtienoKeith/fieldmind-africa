@@ -14,7 +14,7 @@
   "logging_steps": 10,
   "eval_steps": 100,
   "save_steps": 100,
-  "max_steps": -1,
+  "max_steps": 200,
   "output_dir": "artifacts/fieldmind-lora",
   "merged_dir": "artifacts/fieldmind-merged-16bit",
   "gguf_dir": "artifacts/gguf",
