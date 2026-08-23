@@ -74,19 +74,23 @@ function Save-ScreenshotFrame {
 
 $frames = @(
     @{ Name = "01-title"; Text = "Twenty thousand naira can be a farmer's input budget. One wrong chemical purchase can consume it without treating the real problem." },
-    @{ Name = "02-cloud"; Text = "FieldMind Africa is a free, text-only, offline-ready purchase decision assistant. The public Hugging Face demo runs without a paid inference API." },
+    @{ Name = "02-cloud"; Text = "This is FieldMind Africa. The live Hugging Face Space runs the trained FieldMind one point seven billion Q five model on free CPU hardware. It uses llama dot C P P and no paid inference A P I." },
     @{ Name = "03-cassava"; Text = "For cassava leaves with mosaic patches and curling, FieldMind does not merely list causes. It gives the purchase verdict: do not buy fungicide. Fungicide does not treat a virus, and the answer cites the IITA cassava guide." },
     @{ Name = "04-kiswahili"; Text = "FieldMind detects English and Kiswahili. For flooded young maize entered in Kiswahili, the complete answer stays in Kiswahili, says not to buy CAN yet, and puts drainage and field checks before fertilizer." },
-    @{ Name = "05-repo"; Text = "The public repository contains the reproducible pipeline. It prepares eleven thousand two hundred and eighty open training records, validates zero question leakage, fine tunes Qwen three one point seven billion with free Colab Q LoRA, and exports CPU GGUF files for llama dot C P P." },
-    @{ Name = "06-close"; Text = "FieldMind does not promise a laboratory diagnosis from one text message. It protects the decision before scarce money is spent. Before you buy the chemical, ask the laptop." }
+    @{ Name = "05-dose"; Text = "FieldMind can shortlist registry backed products when the crop, target, and country evidence match. But it never invents a dose. An exact application rate appears only when the user supplies that exact product label, formulation, crop, target, and rate." },
+    @{ Name = "06-evidence"; Text = "The final audit also caught and fixed cross case contamination. Each farmer's case is now isolated. Common high value cases use fast, source linked cards. For purple young maize in cold wet soil, FieldMind checks restricted phosphorus uptake and roots before recommending any fertilizer purchase." },
+    @{ Name = "07-repo"; Text = "The public repository contains the reproducible pipeline. It prepares eleven thousand two hundred and eighty open training records, validates zero question leakage, fine tunes Qwen three one point seven billion with free Colab Q LoRA, and exports a checksum verified CPU GGUF. Fifteen regression tests pass." },
+    @{ Name = "08-close"; Text = "FieldMind is text only and does not pretend one message is a laboratory diagnosis. It protects the decision before scarce money is spent. Before you buy the chemical, ask the laptop." }
 )
 
 Save-TitleFrame -Path (Join-Path $assetDir "01-title.png") -Kicker "NGN 20,000" -Title "FieldMind Africa" -Subtitle "Before you buy the chemical, ask the laptop."
-Save-ScreenshotFrame -Path (Join-Path $assetDir "02-cloud.png") -ImagePath (Join-Path $RepoRoot "benchmarks/live-space-home.png") -Caption "FREE PUBLIC CLOUD DEMO | NO PAID API"
+Save-TitleFrame -Path (Join-Path $assetDir "02-cloud.png") -Kicker "LIVE FREE CLOUD DEMO" -Title "Trained Q5 Model" -Subtitle "FieldMind Africa 1.7B · llama.cpp · CPU only · no paid API"
 Save-ScreenshotFrame -Path (Join-Path $assetDir "03-cassava.png") -ImagePath (Join-Path $RepoRoot "benchmarks/video-cassava-verdict.png") -Caption "PURCHASE VERDICT: DO NOT BUY FUNGICIDE"
 Save-ScreenshotFrame -Path (Join-Path $assetDir "04-kiswahili.png") -ImagePath (Join-Path $RepoRoot "benchmarks/video-kiswahili-verdict.png") -Caption "AUTOMATIC LANGUAGE ROUTING | COMPLETE KISWAHILI ANSWER"
-Save-ScreenshotFrame -Path (Join-Path $assetDir "05-repo.png") -ImagePath (Join-Path $RepoRoot "benchmarks/public-github-repo.png") -Caption "PUBLIC REPRODUCIBLE PIPELINE | OPEN DATA | PASSING CHECKS"
-Save-TitleFrame -Path (Join-Path $assetDir "06-close.png") -Kicker "SCIENCE | EDGE ENGINEERING | PRODUCT IMPACT" -Title "FieldMind Africa" -Subtitle "Live: huggingface.co/spaces/otieno28/fieldmind-africa"
+Save-TitleFrame -Path (Join-Path $assetDir "05-dose.png") -Kicker "SPEND GUARD" -Title "No invented dose" -Subtitle "Exact rate only from the exact user-supplied registered product label."
+Save-TitleFrame -Path (Join-Path $assetDir "06-evidence.png") -Kicker "EVIDENCE BEFORE PURCHASE" -Title "Fast, sourced decisions" -Subtitle "Isolated farmer cases · no product or dose leakage between questions"
+Save-ScreenshotFrame -Path (Join-Path $assetDir "07-repo.png") -ImagePath (Join-Path $RepoRoot "benchmarks/public-github-repo.png") -Caption "PUBLIC PIPELINE | 11,280 TRAINING RECORDS | 15 TESTS PASS"
+Save-TitleFrame -Path (Join-Path $assetDir "08-close.png") -Kicker "SCIENCE | EDGE ENGINEERING | PRODUCT IMPACT" -Title "FieldMind Africa" -Subtitle "Live: huggingface.co/spaces/otieno28/fieldmind-africa"
 
 $synth = New-Object System.Speech.Synthesis.SpeechSynthesizer
 $synth.SelectVoice("Microsoft Zira Desktop")
@@ -113,7 +117,7 @@ foreach ($frame in $frames) {
 $concatPath = Join-Path $assetDir "concat.txt"
 $concatLines = $clips | ForEach-Object { "file '$($_.Replace("'", "''"))'" }
 [System.IO.File]::WriteAllLines($concatPath, $concatLines)
-$output = Join-Path $videoDir "fieldmind-africa-demo.mp4"
+$output = Join-Path $videoDir "fieldmind-africa-final-demo.mp4"
 & ffmpeg -y -loglevel error -f concat -safe 0 -i $concatPath -c copy -movflags +faststart $output
 if ($LASTEXITCODE -ne 0) { throw "ffmpeg concat failed" }
 

@@ -9,7 +9,7 @@ Before you buy the chemical, ask the laptop.
 - Live free cloud demo: https://huggingface.co/spaces/otieno28/fieldmind-africa
 - Public source and submission repository: https://github.com/OtienoKeith/fieldmind-africa
 - Public model repository: https://huggingface.co/otieno28/fieldmind-africa-1.7b-gguf
-- 91-second demo video: https://github.com/OtienoKeith/fieldmind-africa/blob/main/video/fieldmind-africa-demo.mp4
+- Final 2-minute 18-second demo video: https://github.com/OtienoKeith/fieldmind-africa/blob/main/video/fieldmind-africa-final-demo.mp4
 
 ## Inspiration
 
