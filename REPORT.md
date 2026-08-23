@@ -3,7 +3,7 @@
 **Team ID:** fieldmind-africa-replace-with-adtf-team-id
 **Domain:** agriculture
 **Candidate model:** FieldMind-Africa-1.7B-Q5_K_M
-**Status:** reproducible pipeline complete; final training and measurements pending free-GPU execution
+**Status:** reproducible pipeline and live cloud demo complete; final free-GPU training and measurements in progress
 
 ---
 
@@ -37,6 +37,8 @@ The main source is the CC-BY-4.0 Digital Green FarmerChat dataset. The determini
 4. preserves provenance per example;
 5. mixes project-authored FieldMind cases that explicitly teach uncertainty, low-cost verification, and Spend Guard;
 6. applies the Qwen chat template during training.
+
+The reproducible build executed on 23 August 2026 produced 11,280 training records and 316 validation records. The validator reported 11,196 unique training questions, 316 unique validation questions, 24 held-out evaluation questions, and zero hash overlap between those groups. The committed manifest records the configuration, filter counts, and SHA-256 hashes; the 49 MB generated JSONL is intentionally rebuilt rather than stored in Git.
 
 FarmerChat responses are AI-generated advisory text, not automatically expert-reviewed ground truth. For that reason the pipeline does not claim the source is a gold-standard agronomy dataset. The evaluation sets are authored separately and never imported into training.
 
@@ -83,6 +85,22 @@ Three JSONL suites are versioned in `data/eval/`:
 The local evaluator uses transparent required concept groups, forbidden premature claims, and required FieldMind sections. This is a deterministic regression proxy, not a substitute for agronomist review. Raw responses are saved for manual inspection.
 
 Train/eval leakage is checked by normalised question hash. The two official metadata prompts are also checked against both datasets.
+
+## Live free-cloud validation
+
+The public [Hugging Face Space](https://huggingface.co/spaces/otieno28/fieldmind-africa) runs on free CPU infrastructure and makes no paid inference API call. It is deliberately labeled as a Qwen3 baseline preview until the trained competition GGUF replaces it. Purchase mode uses deterministic evidence cards so the public demonstration is responsive and does not expose an uncontrolled model answer as a verified chemical recommendation.
+
+Browser acceptance tests on 23 August 2026 confirmed:
+
+- English cassava mosaic symptoms return **DO NOT BUY FUNGICIDE** and an IITA source;
+- flooded maize entered in Kiswahili is detected and answered completely in Kiswahili with **USINUNUE CAN BADO**;
+- a rate is transcribed only from complete user-supplied label text and is explicitly marked as unverified product suitability;
+- an unmatched purchase question returns **DO NOT BUY YET** and requests the missing crop, field, country, product, and label evidence;
+- purchase-card responses complete without waiting for free-form model generation.
+
+![Live FieldMind Space](benchmarks/live-space-home.png)
+
+![Cassava purchase verdict](benchmarks/live-cassava-decision.png)
 
 ## Benchmarks
 

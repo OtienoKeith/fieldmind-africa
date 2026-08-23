@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "created_at_utc": "2026-08-23T13:24:34.187064+00:00",
+  "mode": "open_farmerchat",
+  "random_seed": 3407,
+  "config": {
+    "source_dataset": "DigiGreen/farmerchat-queries",
+    "configs": {
+      "kenya": 4000,
+      "nigeria": 6000,
+      "ethiopia": 1500
+    },
+    "validation_fraction": 0.03,
+    "min_query_chars": 24,
+    "min_response_chars": 100,
+    "max_response_chars": 3500,
+    "seed_upsample": 8,
+    "random_seed": 3407,
+    "license": "CC-BY-4.0"
+  },
+  "counts": {
+    "train": 11280,
+    "validation": 316
+  },
+  "source_counts": {
+    "DigiGreen/farmerchat-queries:ethiopia": 1500,
+    "DigiGreen/farmerchat-queries:kenya": 4000,
+    "DigiGreen/farmerchat-queries:nigeria": 6000,
+    "fieldmind_original_behavior": 96
+  },
+  "filter_counts": {
+    "accepted": 11512,
+    "duplicate_query": 12,
+    "high_risk_dose_query": 74,
+    "long_response": 12,
+    "redaction_marker": 5535,
+    "short_query": 1
+  },
+  "sha256": {
+    "train.jsonl": "57e35a15361b61801ecd7830236ae7ad054a381d65748b032546ef9c4b2ab9e3",
+    "validation.jsonl": "31a2e4654e53f22f208941ac82d332024006baa659496a8f12f9513e208b78c6"
+  },
+  "warning": "FarmerChat responses are AI-generated advisory text and are not automatically expert-validated."
+}
