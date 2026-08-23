@@ -10,6 +10,8 @@ The product's memorable behaviour is **Spend Guard**: when symptoms are ambiguou
 
 Open **[FieldMind Africa on Hugging Face Spaces](https://huggingface.co/spaces/otieno28/fieldmind-africa)**. The public Space uses a real Qwen3-1.7B Q4_K_M GGUF with llama.cpp, makes no paid API calls, and is labeled as a baseline preview until the competition fine-tune is trained. A warm end-to-end test on 23 August 2026 streamed useful answer text in about 5.7 seconds and completed in about 15 seconds at roughly 12 tokens/second. Free Spaces may sleep when inactive, so allow time for a cold start.
 
+The repository also includes a **[91-second narrated demo video](video/fieldmind-africa-demo.mp4)** built entirely with local/free tooling.
+
 The current demo is **text-only**, not image or audio multimodal. Its local, no-API language detector supports and fully replies in the project's two verified languages: English and Kiswahili. A user can still override detection from the language menu. Users choose a diagnosis, chemical-purchase, or fertilizer-purchase flow and select the country whose product registry applies. Purchase mode is deterministic rather than free-form: matched cases can produce a SHORTLIST or DO NOT BUY verdict and name registry-backed products where the evidence supports them; unmatched cases request the missing evidence. Exact application rates are transcribed only when the user supplies complete label text containing the rate, because rates cannot safely be transferred between products or formulations. The demo exposes its matched sources, but it remains decision support and cannot guarantee a correct diagnosis.
 
 ## What is complete in this repository

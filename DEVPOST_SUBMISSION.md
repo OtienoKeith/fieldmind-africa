@@ -9,6 +9,7 @@ Before you buy the chemical, ask the laptop.
 - Live free cloud demo: https://huggingface.co/spaces/otieno28/fieldmind-africa
 - Public source and submission repository: https://github.com/OtienoKeith/fieldmind-africa
 - Public model repository: https://huggingface.co/otieno28/fieldmind-africa-1.7b-gguf
+- 91-second demo video: https://github.com/OtienoKeith/fieldmind-africa/blob/main/video/fieldmind-africa-demo.mp4
 
 ## Inspiration
 
@@ -50,4 +51,3 @@ Agricultural usefulness is not the same as diagnostic confidence. A model can be
 ## What's next
 
 The immediate next step is agronomist review and expansion of country-specific product registries. Future versions should add an offline image encoder only after proving that image quality and crop coverage improve decisions, expand verified African-language datasets, and package the selected GGUF with a small local desktop/mobile interface for extension teams.
-
