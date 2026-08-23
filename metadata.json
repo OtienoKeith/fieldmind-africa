@@ -1,0 +1,37 @@
+{
+  "team_id": "fieldmind-africa-replace-with-adtf-team-id",
+  "domain": "agriculture",
+  "language_scope": ["en", "sw"],
+  "african_alpha_claim": true,
+  "budget_laptop_claim": true,
+  "submitter": {
+    "name": "Keith Otieno",
+    "email": "replace-me@example.com",
+    "github_handle": "OtienoKeith"
+  },
+  "cross_disciplinary_pairing": {
+    "discipline": "smallholder agriculture and household economics",
+    "load_bearing": true,
+    "description": "FieldMind helps extension officers, cooperatives, and agro-input shops check ambiguous crop symptoms before a farmer spends a limited input budget on fertilizer, pesticide, or fungicide."
+  },
+  "test_prompts": [
+    {
+      "prompt_id": "tp_001",
+      "prompt": "A farmer near Ibadan has cassava with curling leaves, yellow-green mosaic patches, and smaller new leaves after several weeks of heavy rain. The farmer can afford only one intervention and plans to buy fungicide today. Explain the likely possibilities, what to inspect first, the lowest-cost safe next step, and whether buying fungicide now is justified. State your confidence."
+    },
+    {
+      "prompt_id": "tp_002",
+      "prompt": "Mkulima wa Kitale alipanda mahindi wiki tatu zilizopita. Majani ya chini yanaanza kuwa ya njano baada ya mvua nyingi, shamba halitoi maji vizuri, na DAP iliwekwa wakati wa kupanda. Anataka kununua CAN leo. Mshauri kwa Kiswahili: sababu zinazowezekana, vitu vya kukagua kwanza, hatua ya gharama ndogo, kama anunue CAN sasa, na kiwango cha uhakika."
+    }
+  ],
+  "model": {
+    "name": "FieldMind-Africa-1.7B-Q5_K_M",
+    "runtime": "llama.cpp",
+    "quantization": "GGUF Q5_K_M",
+    "parameters_estimate": "1.7B",
+    "packaging": "binary_bundle"
+  },
+  "_runtime": {
+    "model_path": "model/FieldMind-Africa-1.7B-Q5_K_M.gguf"
+  }
+}

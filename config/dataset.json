@@ -1,0 +1,15 @@
+{
+  "source_dataset": "DigiGreen/farmerchat-queries",
+  "configs": {
+    "kenya": 4000,
+    "nigeria": 6000,
+    "ethiopia": 1500
+  },
+  "validation_fraction": 0.03,
+  "min_query_chars": 24,
+  "min_response_chars": 100,
+  "max_response_chars": 3500,
+  "seed_upsample": 8,
+  "random_seed": 3407,
+  "license": "CC-BY-4.0"
+}

@@ -1,0 +1,9 @@
+FieldMind Africa includes software derived from the Africa Deep Tech Challenge 2026 submission template.
+
+Training data attribution:
+Digital Green, FarmerChat Agricultural Q&A Dataset (2026), CC BY 4.0.
+https://huggingface.co/datasets/DigiGreen/farmerchat-queries
+
+Base model attribution:
+Qwen/Qwen3-1.7B, Copyright 2024 Alibaba Cloud, Apache License 2.0.
+https://huggingface.co/Qwen/Qwen3-1.7B

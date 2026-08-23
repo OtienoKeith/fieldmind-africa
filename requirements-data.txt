@@ -1,0 +1,3 @@
+datasets>=3.2,<5
+huggingface-hub>=0.27
+pyarrow>=17
