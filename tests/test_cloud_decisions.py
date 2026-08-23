@@ -40,6 +40,8 @@ def load_decision_namespace() -> dict:
         "label_rate_card",
         "insufficient_purchase_card",
         "deterministic_purchase_answer",
+        "deterministic_diagnosis_answer",
+        "isolated_case_messages",
     }
     selected = []
     for node in tree.body:
@@ -120,3 +122,28 @@ def test_unmatched_purchase_does_not_call_the_model_or_leak_prompts() -> None:
     assert "DO NOT BUY YET" in answer
     assert "SYSTEM_PROMPT" not in answer
     assert "NAFDAC Greenbook" in answer
+
+
+def test_diagnosis_context_is_isolated_between_farmers() -> None:
+    messages = DECISIONS["isolated_case_messages"](
+        "System instructions for the current case",
+        "New maize case",
+    )
+    assert messages == [
+        {"role": "system", "content": "System instructions for the current case"},
+        {"role": "user", "content": "New maize case\n/no_think"},
+    ]
+    assert "20 g per 20 L" not in repr(messages)
+
+
+def test_purple_maize_diagnosis_does_not_mislabel_nitrogen() -> None:
+    answer = DECISIONS["deterministic_diagnosis_answer"](
+        "Young maize is purple and stunted in a cold wet field",
+        ["Iowa State Extension"],
+        "English",
+    )
+    assert answer is not None
+    assert "restricted phosphorus uptake" in answer
+    assert "does not prove" in answer
+    assert "Do not buy phosphorus fertilizer without a soil test" in answer
+    assert "nitrogen deficiency" not in answer.casefold()

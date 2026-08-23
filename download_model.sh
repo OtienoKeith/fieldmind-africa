@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# REQUIRED OWNER ACTION: replace both defaults after the tournament winner is
-# uploaded publicly. Environment overrides exist only for pre-submission testing.
-MODEL_URL="${MODEL_URL:-https://huggingface.co/REPLACE_WITH_PUBLIC_REPO/resolve/main/FieldMind-Africa-1.7B-Q5_K_M.gguf?download=true}"
-MODEL_SHA256="${MODEL_SHA256:-REPLACE_WITH_FINAL_SHA256}"
+# Public, credential-free model release. Environment overrides remain useful for
+# testing mirrors, while the defaults are the exact submission artifact.
+MODEL_URL="${MODEL_URL:-https://huggingface.co/otieno28/fieldmind-africa-1.7b-gguf/resolve/main/FieldMind-Africa-1.7B-Q5_K_M.gguf?download=true}"
+MODEL_SHA256="${MODEL_SHA256:-42e4b60d3df7f0661c65e1f85ffad11a1cf1be125105e09691712270d7c94795}"
 MODEL_PATH="model/FieldMind-Africa-1.7B-Q5_K_M.gguf"
 
 mkdir -p "$(dirname "$MODEL_PATH")"
@@ -20,11 +20,6 @@ verify() {
     return 1
   fi
 }
-
-if [[ "$MODEL_URL" == *"REPLACE_WITH_PUBLIC_REPO"* || "$MODEL_SHA256" == "REPLACE_WITH_FINAL_SHA256" ]]; then
-  echo "Final model URL/SHA are not configured. See SUBMISSION_CHECKLIST.md." >&2
-  exit 2
-fi
 
 if [[ -f "$MODEL_PATH" ]] && verify "$MODEL_PATH"; then
   echo "Model already present and verified: $MODEL_PATH"

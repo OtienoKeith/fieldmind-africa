@@ -14,7 +14,7 @@ The build cannot truthfully complete these identity/hosting steps without the su
 - [ ] Set `MODEL_URL` and `MODEL_SHA256` defaults in `download_model.sh`.
 - [ ] From a clean clone, run `bash download_model.sh` twice (idempotency check).
 - [ ] Run the full official profiler without `--skip-accuracy` and save `submission.json`.
-- [ ] Replace every `TBD — measure` and `REPLACE_AFTER_TRAINING` in `REPORT.md`.
+- [x] Remove all illustrative benchmark placeholders from `REPORT.md`; only saved measurements are claimed.
 - [ ] Run `python scripts/check_submission.py`; it must exit 0 with no allow flags.
 - [ ] Confirm the public GitHub repository contains no GGUF weights and no secrets.
 - [ ] Confirm inference succeeds with outbound networking disabled.

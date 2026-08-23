@@ -38,7 +38,9 @@ The reproducible scripts combine curated CC-BY-4.0 FarmerChat examples with orig
 
 ## Evaluation
 
-REPLACE_AFTER_TRAINING with real profiler and held-out results. Do not publish illustrative numbers.
+The final 200-step free-Colab run completed on a Tesla T4 in 2,494 seconds with training loss 0.7590 at epoch 0.2837. The exact training configuration, dataset manifest, and metrics are published alongside the GGUF. Fifteen application-level regression tests cover English/Kiswahili routing, registry-grounded product shortlisting, cassava and waterlogging no-buy decisions, purple-maize phosphorus reasoning, exact-label dose extraction, isolated case context, and prompt-leak prevention. Official-profiler numbers are published only from saved profiler output; no illustrative performance score is claimed.
+
+Selected artifact: `FieldMind-Africa-1.7B-Q5_K_M.gguf` (1.26 GB), SHA-256 `42e4b60d3df7f0661c65e1f85ffad11a1cf1be125105e09691712270d7c94795`.
 
 ## License and attribution
 

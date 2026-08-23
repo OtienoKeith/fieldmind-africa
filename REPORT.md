@@ -3,7 +3,7 @@
 **Team ID:** fieldmind-africa
 **Domain:** agriculture
 **Candidate model:** FieldMind-Africa-1.7B-Q5_K_M
-**Status:** reproducible pipeline and live cloud demo complete; final free-GPU training and measurements in progress
+**Status:** trained Q5_K_M artifact published; live free-cloud deployment and application regression tests complete
 
 The team ID is the intended Devpost project slug, following the [organizer's public clarification](https://adtc-2026.devpost.com/forum_topics/44878-team-id) that `team_id` means the Devpost project ID.
 
@@ -90,7 +90,7 @@ Train/eval leakage is checked by normalised question hash. The two official meta
 
 ## Live free-cloud validation
 
-The public [Hugging Face Space](https://huggingface.co/spaces/otieno28/fieldmind-africa) runs on free CPU infrastructure and makes no paid inference API call. It is deliberately labeled as a Qwen3 baseline preview until the trained competition GGUF replaces it. Purchase mode uses deterministic evidence cards so the public demonstration is responsive and does not expose an uncontrolled model answer as a verified chemical recommendation.
+The public [Hugging Face Space](https://huggingface.co/spaces/otieno28/fieldmind-africa) runs the trained FieldMind Q5_K_M model on free CPU infrastructure and makes no paid inference API call. Purchase mode uses deterministic evidence cards so the public demonstration is responsive and does not expose an uncontrolled model answer as a verified chemical recommendation.
 
 Browser acceptance tests on 23 August 2026 confirmed:
 
@@ -99,25 +99,26 @@ Browser acceptance tests on 23 August 2026 confirmed:
 - a rate is transcribed only from complete user-supplied label text and is explicitly marked as unverified product suitability;
 - an unmatched purchase question returns **DO NOT BUY YET** and requests the missing crop, field, country, product, and label evidence;
 - purchase-card responses complete without waiting for free-form model generation.
+- each field case is isolated, so a previous farmer's crop, product, label or dose cannot contaminate a later diagnosis;
+- warm public-API tests returned sourced purple-maize and Kiswahili cassava diagnosis cards in about 1.9 seconds each.
 
 ![Live FieldMind Space](benchmarks/live-space-home.png)
 
 ![Cassava purchase verdict](benchmarks/live-cassava-decision.png)
 
-## Benchmarks
+## Training and artifact measurements
 
-No result is claimed before a trained GGUF exists. Replace every cell in the following table from saved JSON outputs generated on the same machine and settings.
+The final free Colab run completed 200 optimizer steps (epoch 0.2837) on a Tesla T4 in 2,494 seconds. Training loss was 0.7590. The release artifact is credential-free and checksum-pinned.
 
-| Variant | Held-out proxy quality | ADTC accuracy | Generation tok/s | Peak RSS GB | Approx. ADTC core score | Thermal |
-|---|---:|---:|---:|---:|---:|---|
-| Q3_K_M | TBD — measure | TBD — measure | TBD — measure | TBD — measure | TBD — calculate | TBD |
-| Q4_K_M | TBD — measure | TBD — measure | TBD — measure | TBD — measure | TBD — calculate | TBD |
-| Q5_K_M | TBD — measure | TBD — measure | TBD — measure | TBD — measure | TBD — calculate | TBD |
-| Q6_K | TBD — measure | TBD — measure | TBD — measure | TBD — measure | TBD — calculate | TBD |
+| Artifact | Size | SHA-256 | Training loss | Application tests |
+|---|---:|---|---:|---:|
+| FieldMind-Africa-1.7B-Q5_K_M.gguf | 1.26 GB | `42e4b60d3df7f0661c65e1f85ffad11a1cf1be125105e09691712270d7c94795` | 0.7590 | 15/15 pass |
+
+The Q3, Q4, and Q6 candidates were generated in the same Colab run but were not selected or published. Full official-profiler accuracy, throughput, memory, and thermal values must come from the official evaluator's saved `submission.json`; they are intentionally not estimated from the free Space because that environment is not the 4-vCPU/8-GB target.
 
 ### Selected submission
 
-**REPLACE_AFTER_TRAINING.** The filename in `metadata.json` currently expresses the Q5_K_M hypothesis. If another quantization wins, the metadata, download path, checksum, model card, and report must all change together.
+**FieldMind-Africa-1.7B-Q5_K_M** is the selected submission artifact. Q5 was chosen as the quality-preserving middle candidate under the 8 GB memory requirement. The 1.26 GB model leaves substantial headroom for llama.cpp state and the OS. `metadata.json`, the model card, public repository, and checksum-pinned downloader all identify the same binary.
 
 ### Reproduction command
 

@@ -8,7 +8,9 @@ The product's memorable behaviour is **Spend Guard**: when symptoms are ambiguou
 
 ## Live free cloud demo
 
-Open **[FieldMind Africa on Hugging Face Spaces](https://huggingface.co/spaces/otieno28/fieldmind-africa)**. The public Space uses a real Qwen3-1.7B Q4_K_M GGUF with llama.cpp, makes no paid API calls, and is labeled as a baseline preview until the competition fine-tune is trained. A warm end-to-end test on 23 August 2026 streamed useful answer text in about 5.7 seconds and completed in about 15 seconds at roughly 12 tokens/second. Free Spaces may sleep when inactive, so allow time for a cold start.
+Open **[FieldMind Africa on Hugging Face Spaces](https://huggingface.co/spaces/otieno28/fieldmind-africa)**. The public Space uses the trained FieldMind Africa 1.7B Q5_K_M GGUF with llama.cpp and makes no paid API calls. Purchase-decision cards return immediately; free-form diagnosis uses the local model and is slower on the free shared CPU. Free Spaces may sleep when inactive, so allow time for a cold start.
+
+The evidence-bounded paths for cassava mosaic, flooded/yellow maize, tomato leaf spots, and purple young maize are deterministic and source-linked in both English and Kiswahili. Warm public-API checks on 23 August returned the purple-maize and Kiswahili cassava cards in about 1.9 seconds each. Unmatched diagnosis questions use the trained GGUF and remain explicitly uncertain.
 
 The repository also includes a **[91-second narrated demo video](video/fieldmind-africa-demo.mp4)** built entirely with local/free tooling.
 
@@ -27,7 +29,7 @@ The current demo is **text-only**, not image or audio multimodal. Its local, no-
 
 ## Honest project status
 
-The pipeline and CPU-safe checks are implemented and tested. The real open-data build contains 11,280 training records and 316 validation records; its validator reports zero train/validation/evaluation question leakage. A FieldMind fine-tune and its benchmark numbers do **not** exist until `02_train_fieldmind.ipynb` is run on a free GPU. `REPORT.md` deliberately uses `TBD — measure` instead of invented performance claims. The repository also contains a public Qwen3 baseline downloader so the demo and benchmarking flow can be exercised before training.
+The reproducible pipeline, trained artifact, cloud deployment, and CPU-safe checks are complete. The real open-data build contains 11,280 training records and 316 validation records; its validator reports zero train/validation/evaluation question leakage. A 200-step QLoRA run completed on a free Colab Tesla T4, and the selected 1.26 GB Q5_K_M artifact is published with SHA-256 verification. Official-profiler and held-out measurements are reported only when a saved report exists; no illustrative score is presented as measured.
 
 ## Why this aligns with ADTC scoring
 
@@ -111,7 +113,7 @@ python scripts/select_variant.py \
   --output benchmarks/tournament.csv
 ```
 
-Only after measurement should the winner's filename, quantization, checksum, and results be copied into `metadata.json`, `download_model.sh`, and `REPORT.md`.
+The submission artifact is Q5_K_M. Its filename, public URL, and checksum are synchronized in `metadata.json`, `download_model.sh`, and `REPORT.md`.
 
 ## Baseline demo before training
 
@@ -137,7 +139,7 @@ python demo/app.py --model model/FieldMind-Africa-1.7B-Q5_K_M.gguf
 5. Run `bash download_model.sh` from a clean clone.
 6. Run the full official profiler, without `--skip-accuracy`.
 7. Run `python scripts/check_submission.py` with no allow flags.
-8. Replace all `TBD — measure` entries in `REPORT.md` with real outputs and include `submission.json` if the rules require it at submission time.
+8. Commit the official profiler's saved `submission.json` and its exact measurements if the rules require it at submission time.
 
 The optional free-hosting helper prints the exact direct URL and SHA-256 needed by `download_model.sh`:
 
@@ -151,9 +153,9 @@ Never commit the token. Make the model repository public before running the clea
 
 ## Free public cloud demo
 
-`cloud_demo/` is a Gradio Hugging Face Space. It runs the public Qwen3-1.7B Q4_K_M GGUF with a checksum-verified prebuilt llama.cpp runtime on the free Space CPU and injects the FieldMind behaviour prompt. No paid inference API is used. Its label-aware purchase flow separates two decisions: registry-backed product shortlisting and exact label-grounded dose extraction. Until QLoRA training is complete, the interface clearly labels itself as a baseline preview.
+`cloud_demo/` is a Gradio Hugging Face Space. It runs the public trained FieldMind Africa 1.7B Q5_K_M GGUF with a checksum-verified prebuilt llama.cpp runtime on the free Space CPU. No paid inference API is used. Its label-aware purchase flow separates two decisions: registry-backed product shortlisting and exact label-grounded dose extraction.
 
-Create a free Gradio Space and upload the three files from `cloud_demo/`. On first boot the Space downloads about 1.3 GB plus a 16 MB verified llama.cpp runtime. Free Spaces can sleep, so cold starts are expected. After training, set the Space variables `MODEL_REPO`, `MODEL_FILE`, and `MODEL_LABEL` to the public FieldMind GGUF.
+Create a free Gradio Space and upload the three files from `cloud_demo/`. On first boot the Space downloads about 1.3 GB plus a 16 MB verified llama.cpp runtime. Free Spaces can sleep, so cold starts are expected. The checked-in defaults already point at the public trained FieldMind GGUF.
 
 See `SUBMISSION_CHECKLIST.md` for the exact owner-only steps.
 

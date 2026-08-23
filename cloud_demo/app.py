@@ -14,9 +14,9 @@ import requests
 import spaces
 from huggingface_hub import hf_hub_download
 
-MODEL_REPO = os.environ.get("MODEL_REPO", "ggml-org/Qwen3-1.7B-GGUF")
-MODEL_FILE = os.environ.get("MODEL_FILE", "Qwen3-1.7B-Q4_K_M.gguf")
-MODEL_LABEL = os.environ.get("MODEL_LABEL", "Qwen3-1.7B Q4_K_M baseline preview")
+MODEL_REPO = os.environ.get("MODEL_REPO", "otieno28/fieldmind-africa-1.7b-gguf")
+MODEL_FILE = os.environ.get("MODEL_FILE", "FieldMind-Africa-1.7B-Q5_K_M.gguf")
+MODEL_LABEL = os.environ.get("MODEL_LABEL", "FieldMind Africa 1.7B Q5_K_M — trained submission model")
 LLAMA_RUNTIME_URL = "https://github.com/ggml-org/llama.cpp/releases/download/b10593/llama-b10593-bin-ubuntu-x64.tar.gz"
 LLAMA_RUNTIME_SHA256 = "fb3479dcb6b8ced8d785585af991b9ffa6ce605b51fc06229c1770544922a0db"
 BACKEND_PORT = int(os.environ.get("BACKEND_PORT", "8081"))
@@ -82,7 +82,7 @@ REFERENCE_CASES = (
     },
     {
         "crop": ("maize", "corn", "mahindi"),
-        "clues": ("yellow", "njano", "rain", "mvua", "wet", "flood"),
+        "clues": ("yellow", "njano"),
         "note": (
             "Saturated soil can restrict maize root growth and nutrient uptake and can increase nitrogen loss. "
             "Nitrogen-deficiency yellowing commonly begins on lower leaves along the midrib from the tip, but fertilizer should follow field and soil checks."
@@ -97,6 +97,15 @@ REFERENCE_CASES = (
             "Spot size, rings, water-soaking, leaf position, fruit symptoms, weather, and spread help separate them; exact chemical control requires diagnosis and the local product label."
         ),
         "source": "[University of Minnesota Extension: tomato leaf spots](https://apps.extension.umn.edu/garden/diagnose/plant/vegetable/tomato/leavesspots.html)",
+    },
+    {
+        "crop": ("maize", "corn", "mahindi"),
+        "clues": ("purple", "purplish", "zambarau"),
+        "note": (
+            "Purple, stunted young maize in cold or wet soil can reflect temporarily restricted phosphorus uptake or restricted roots; "
+            "it does not by itself prove the soil lacks phosphorus. Check roots, compaction, drainage, soil temperature, and a soil test before buying fertilizer."
+        ),
+        "source": "[Iowa State University Extension: plant color, management and weather](https://crops.extension.iastate.edu/encyclopedia/plant-color-differences-based-management-and-weather)",
     },
 )
 
@@ -405,6 +414,112 @@ def deterministic_purchase_answer(
     return insufficient_purchase_card(country, sources, language)
 
 
+def deterministic_diagnosis_answer(message: str, sources: list[str], language: str) -> str | None:
+    """Return evidence-bounded cards for reference cases; leave unmatched cases to the GGUF."""
+    text = message.casefold()
+    is_cassava = _matches_case(message, 0)
+    is_flooded_maize = _matches_case(message, 1) and any(
+        word in text for word in ("rain", "mvua", "wet", "waterlog", "flood", "drain")
+    )
+    is_tomato_spot = _matches_case(message, 2)
+    is_purple_maize = _matches_case(message, 3)
+    if language == "Kiswahili":
+        if is_cassava:
+            answer = """KINACHOWEZA KUTOKEA: Mosaic ya njano-kijani na majani ya muhogo kupinda inaweza kuendana na cassava mosaic, lakini maandishi pekee hayathibitishi ugonjwa.
+
+KAGUA KABLA YA HATUA: Angalia mpangilio wa dalili shambani, vipando vilivyotumika na wadudu weupe chini ya majani. Pata uthibitisho wa afisa ugani ikiwa inaenea haraka.
+
+HATUA YA GHARAMA YA CHINI: Tenga mimea iliyoathirika sana na usitumie vipando vyake.
+
+KABLA YA KUTUMIA PESA: Usinunue fungicide; haitibu virusi.
+
+UHAKIKA: Wa kati."""
+        elif is_flooded_maize:
+            answer = """KINACHOWEZA KUTOKEA: Maji mengi yanaweza kuzuia mizizi na ufyonzaji wa virutubisho; njano ya jani la chini inaweza pia kuendana na upungufu wa nitrojeni, lakini dalili pekee hazithibitishi hilo.
+
+KAGUA KABLA YA HATUA: Ondoa maji yaliyotuama, kagua mizizi na umbo la njano, na linganisha sehemu yenye maji na sehemu kavu.
+
+HATUA YA GHARAMA YA CHINI: Rekebisha mifereji, subiri udongo upate hewa, kisha tumia kipimo cha udongo au afisa ugani.
+
+KABLA YA KUTUMIA PESA: Usinunue CAN bado.
+
+UHAKIKA: Wa kati."""
+        elif is_tomato_spot:
+            answer = """KINACHOWEZA KUTOKEA: Madoa ya nyanya yanaweza kusababishwa na magonjwa tofauti ya kuvu au bakteria yanayofanana.
+
+KAGUA KABLA YA HATUA: Angalia duara kwenye doa, kingo zenye maji, jani la zamani au jipya, matunda, hali ya hewa na kasi ya kuenea.
+
+HATUA YA GHARAMA YA CHINI: Ondoa majani yaliyoathirika sana, epuka kumwagilia majani na pata uthibitisho wa afisa ugani.
+
+KABLA YA KUTUMIA PESA: Usichague dawa au kipimo kabla ya kuthibitisha tatizo na lebo ya nchi yako.
+
+UHAKIKA: Wa kati."""
+        elif is_purple_maize:
+            answer = """KINACHOWEZA KUTOKEA: Mahindi machanga ya zambarau kwenye udongo baridi au wenye maji yanaweza kuwa na ufyonzaji mdogo wa fosforasi kwa muda au mizizi iliyozuiwa; si uthibitisho kwamba fosforasi ya udongo ni kidogo.
+
+KAGUA KABLA YA HATUA: Chimba mimea michache; kagua mizizi, mgandamizo, mifereji, joto la udongo na matokeo ya kipimo cha udongo.
+
+HATUA YA GHARAMA YA CHINI: Rekebisha maji au mgandamizo na uangalie ukuaji mpya udongo unapopata joto.
+
+KABLA YA KUTUMIA PESA: Usinunue mbolea ya fosforasi bila kipimo cha udongo.
+
+UHAKIKA: Wa kati."""
+        else:
+            return None
+    else:
+        if is_cassava:
+            answer = """WHAT MAY BE HAPPENING: Yellow-green mosaic and curled cassava leaves can fit cassava mosaic disease, but text alone cannot confirm it.
+
+CHECK BEFORE ACTING: Check the field pattern, planting cuttings and whiteflies under leaves. Ask an extension officer if spread is rapid.
+
+LOWEST-COST ACTION: Separate severely affected plants and do not reuse their cuttings.
+
+BEFORE SPENDING MONEY: Do not buy fungicide; it does not treat a virus.
+
+CONFIDENCE: Medium."""
+        elif is_flooded_maize:
+            answer = """WHAT MAY BE HAPPENING: Saturated soil can restrict roots and nutrient uptake. Lower-leaf yellowing can also fit nitrogen shortage, but symptoms alone do not prove it.
+
+CHECK BEFORE ACTING: Drain standing water, inspect roots and the yellowing pattern, and compare wet with better-drained areas.
+
+LOWEST-COST ACTION: Correct drainage, let the soil aerate, then use a soil check or extension advice.
+
+BEFORE SPENDING MONEY: Do not buy CAN yet.
+
+CONFIDENCE: Medium."""
+        elif is_tomato_spot:
+            answer = """WHAT MAY BE HAPPENING: Several fungal and bacterial tomato leaf spots can look alike.
+
+CHECK BEFORE ACTING: Inspect rings, water-soaked or angular edges, old versus new leaves, fruit symptoms, weather and spread.
+
+LOWEST-COST ACTION: Remove badly affected leaves, avoid wetting foliage and get an extension check.
+
+BEFORE SPENDING MONEY: Do not choose a chemical or dose until the target and local product label are verified.
+
+CONFIDENCE: Medium."""
+        elif is_purple_maize:
+            answer = """WHAT MAY BE HAPPENING: Purple, stunted young maize in cold or wet soil can reflect temporarily restricted phosphorus uptake or restricted roots; it does not prove the soil lacks phosphorus.
+
+CHECK BEFORE ACTING: Dig several plants and inspect roots, compaction, drainage, soil temperature and a soil test.
+
+LOWEST-COST ACTION: Correct water or compaction problems and watch new growth as soil warms.
+
+BEFORE SPENDING MONEY: Do not buy phosphorus fertilizer without a soil test.
+
+CONFIDENCE: Medium."""
+        else:
+            return None
+    return answer + _source_section(sources, language)
+
+
+def isolated_case_messages(grounded_prompt: str, message: str) -> list[dict[str, str]]:
+    """Build a one-case chat so an earlier farmer's product context cannot leak."""
+    return [
+        {"role": "system", "content": grounded_prompt},
+        {"role": "user", "content": f"{message}\n/no_think"},
+    ]
+
+
 def wait_for_backend(process: subprocess.Popen, timeout: int = 240) -> None:
     deadline = time.time() + timeout
     while time.time() < deadline:
@@ -511,6 +626,10 @@ def answer(
             sources,
         )
         return
+    diagnosis_card = deterministic_diagnosis_answer(message, sources, resolved_language)
+    if diagnosis_card:
+        yield detection_prefix + diagnosis_card
+        return
     grounded_prompt = SYSTEM_PROMPT + f"\n\nLANGUAGE: {language_rule}\nMODE: {decision_mode}\nCOUNTRY: {country}"
     if evidence:
         grounded_prompt += (
@@ -537,13 +656,10 @@ def answer(
             )
     elif decision_mode in {"Chemical purchase plan", "Fertilizer purchase plan"}:
         grounded_prompt += "\n\nNo exact product label was supplied. Name verified options when supported, but state that the exact dose requires the exact registered label."
-    messages = [{"role": "system", "content": grounded_prompt}]
-    for item in history[-6:]:
-        role = item.get("role")
-        content = item.get("content")
-        if role in {"user", "assistant"} and isinstance(content, str):
-            messages.append({"role": role, "content": content})
-    messages.append({"role": "user", "content": f"{message}\n/no_think"})
+    # Treat every field case as an isolated decision. Carrying earlier chat turns
+    # can leak a previous product, dose, crop, or country into a new farmer's
+    # case, which is unsafe and also makes mode changes unreliable.
+    messages = isolated_case_messages(grounded_prompt, message)
     yield detection_prefix + PROGRESS_MESSAGES.get(resolved_language, PROGRESS_MESSAGES["English"])
     try:
         response = requests.post(
@@ -592,7 +708,7 @@ CSS = """
 with gr.Blocks(css=CSS, title="FieldMind Africa") as demo:
     gr.HTML(
         f"""<section class='hero'>
-        <span class='badge'>FREE CLOUD DEMO · TEXT-ONLY BASELINE PREVIEW</span>
+        <span class='badge'>FREE CLOUD DEMO · TRAINED FIELDMIND Q5 MODEL</span>
         <h1>🌱 FieldMind Africa</h1>
         <p><strong>Before you buy the chemical, ask FieldMind.</strong></p>
         <p>Free CPU cloud demo with verified English/Kiswahili purchase cards and local GGUF diagnosis mode. No paid API. Current model: {MODEL_LABEL}.</p>

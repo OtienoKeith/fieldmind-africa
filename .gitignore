@@ -9,6 +9,8 @@ data/processed/*
 benchmarks/*.json
 benchmarks/*.csv
 benchmarks/responses/
+!benchmarks/training_metrics.json
+!benchmarks/training_config.json
 __pycache__/
 *.py[cod]
 .pytest_cache/

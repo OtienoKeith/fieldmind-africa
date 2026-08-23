@@ -1,0 +1,21 @@
+{
+  "train_runtime": 2494.0773,
+  "train_samples_per_second": 1.283,
+  "train_steps_per_second": 0.08,
+  "total_flos": 2.35085945266176e+16,
+  "train_loss": 0.7590100526809692,
+  "epoch": 0.28368794326241137,
+  "base_model": "unsloth/Qwen3-1.7B-bnb-4bit",
+  "seed": 3407,
+  "cuda_device": "Tesla T4",
+  "package_versions": {
+    "torch": "2.11.0+cu128",
+    "unsloth": "2026.8.19",
+    "unsloth_zoo": "2026.8.13",
+    "transformers": "5.5.0",
+    "trl": "0.24.0",
+    "peft": "0.20.0",
+    "datasets": "4.3.0",
+    "bitsandbytes": "0.50.1"
+  }
+}
