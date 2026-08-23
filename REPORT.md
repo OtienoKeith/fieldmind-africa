@@ -1,9 +1,11 @@
 # Technical Report — FieldMind Africa
 
-**Team ID:** fieldmind-africa-replace-with-adtf-team-id
+**Team ID:** fieldmind-africa
 **Domain:** agriculture
 **Candidate model:** FieldMind-Africa-1.7B-Q5_K_M
 **Status:** reproducible pipeline and live cloud demo complete; final free-GPU training and measurements in progress
+
+The team ID is the intended Devpost project slug, following the [organizer's public clarification](https://adtc-2026.devpost.com/forum_topics/44878-team-id) that `team_id` means the Devpost project ID.
 
 ---
 

@@ -2,8 +2,8 @@
 
 The build cannot truthfully complete these identity/hosting steps without the submitter and a trained artifact.
 
-- [ ] Replace `fieldmind-africa-replace-with-adtf-team-id` in `metadata.json` and `REPORT.md`.
-- [ ] Replace the submitter name if needed, `replace-me@example.com`, and `replace-me` GitHub handle.
+- [x] Use the available Devpost project slug `fieldmind-africa` as the team/project ID, following the organizer's public clarification.
+- [ ] Replace `replace-me@example.com` with the email linked to the Devpost project.
 - [ ] Train on a free Kaggle/Colab GPU and keep the console log/config.
 - [ ] Run held-out evaluation on every candidate quantization.
 - [ ] Run the official ADTC profiler on every candidate in the same CPU environment.
